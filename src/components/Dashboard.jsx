@@ -14,7 +14,7 @@ import {
   doc,
 } from "firebase/firestore";
 
-export default function Dashboard({ user }) {
+export default function Dashboard({ user, setUser, }) {
   const [entries, setEntries] = useState([]);
   const [allEntries, setAllEntries] = useState([]);
 
@@ -65,16 +65,30 @@ export default function Dashboard({ user }) {
 return (
   <div className="min-h-screen bg-slate-900 text-white p-6">
 
-    {/* Header */}
-    <div className="mb-8">
-      <h1 className="text-4xl font-bold">
-        Welcome, {user}
-      </h1>
+    
+{/* Header */}
+<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
 
-      <p className="text-slate-400 mt-2">
-        Daily Protein Tracker
-      </p>
-    </div>
+  <div>
+    <h1 className="text-3xl md:text-5xl font-bold">
+      Welcome, {user}
+    </h1>
+
+    <p className="text-slate-400 mt-2">
+      Daily Protein Tracker
+    </p>
+  </div>
+
+  <button
+    onClick={() => setUser(null)}
+    className="w-fit bg-slate-800 hover:bg-slate-700 transition-all duration-300 px-5 py-3 rounded-2xl border border-slate-700"
+  >
+    ← Back
+  </button>
+
+</div>
+
+
 
     {/* Daily Comparison Chart */}
     {/* <div className="mb-8">

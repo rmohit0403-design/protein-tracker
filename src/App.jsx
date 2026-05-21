@@ -14,7 +14,13 @@ function App() {
       {!user ? (
         <Login setUser={setUser} />
       ) : (
-        <Dashboard user={user} />
+        
+<Dashboard
+  user={user}
+  setUser={setUser}
+/>
+
+
       )}
 
       <ToastContainer position="top-right" />

@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 
 import DailyComparisonChart from "./DailyComparisonChart";
+import MonthlyCalendar from "./MonthlyCalendar";
+import MotivationBar from "./MotivationBar";
 
 import { db } from "../firebase";
 
@@ -11,9 +13,13 @@ import {
 } from "firebase/firestore";
 
 export default function Login({ setUser }) {
+  const [showCalendar, setShowCalendar] =
+    useState(false);
+
   const [allEntries, setAllEntries] =
     useState([]);
 
+    
   useEffect(() => {
     fetchData();
   }, []);
@@ -22,6 +28,8 @@ export default function Login({ setUser }) {
     const snapshot = await getDocs(
       collection(db, "entries")
     );
+
+
 
     const data = snapshot.docs.map((doc) => ({
       id: doc.id,
@@ -47,6 +55,39 @@ export default function Login({ setUser }) {
     }
   };
 
+  
+const today = new Date().toDateString();
+
+const mohitProtein = allEntries
+  .filter(
+    (item) =>
+      item.user === "Mohit" &&
+      new Date(
+        item.date
+      ).toDateString() === today
+  )
+  .reduce(
+    (acc, item) => acc + item.protein,
+    0
+  );
+
+const rajatProtein = allEntries
+  .filter(
+    (item) =>
+      item.user === "Rajat" &&
+      new Date(
+        item.date
+      ).toDateString() === today
+  )
+  .reduce(
+    (acc, item) => acc + item.protein,
+    0
+  );
+
+
+
+  if (showCalendar) { return ( <MonthlyCalendar setShowCalendar={setShowCalendar} /> ); }
+
   return (
     <div className="min-h-screen bg-slate-950 text-white px-4 py-8">
 
@@ -63,6 +104,20 @@ export default function Login({ setUser }) {
             Track daily protein intake
           </p>
         </div>
+
+        <div className="grid md:grid-cols-2 gap-6 mb-10">
+
+  <MotivationBar
+    name="Mohit"
+    protein={mohitProtein}
+  />
+
+  <MotivationBar
+    name="Rajat"
+    protein={rajatProtein}
+  />
+
+</div>
 
         {/* Main Layout */}
         <div className="grid lg:grid-cols-2 gap-8 items-center">
@@ -105,6 +160,15 @@ export default function Login({ setUser }) {
                 }
               >
                 Continue as Rajat
+              </button>
+
+              <button
+                className="w-full mt-6 border border-slate-700 hover:bg-slate-800 transition-all duration-300 py-4 rounded-2xl text-lg font-semibold"
+                onClick={() =>
+                  setShowCalendar(true)
+                }
+              >
+                View Monthly Calendar
               </button>
 
             </div>
