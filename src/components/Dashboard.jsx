@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ProteinForm from "./ProteinForm";
 import ProteinPieChart from "./ProteinPieChart";
 // import DailyComparisonChart from "./DailyComparisonChart";
+import WaterTracker from "./WaterTracker";
 
 import { db } from "../firebase";
 
@@ -107,7 +108,9 @@ return (
         <div className="bg-slate-800 p-6 rounded-3xl shadow-lg mb-6">
           <h2 className="text-xl text-slate-300">
             Today's Protein
+            <div className="mb-6"> <WaterTracker /> </div>
           </h2>
+          
 
           <p className="text-6xl font-bold mt-4">
             {totalProtein}g
